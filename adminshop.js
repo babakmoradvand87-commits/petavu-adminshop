@@ -5,11 +5,24 @@ async function render() {
   }
   const user = await petavuData.auth.user();
   if (!user) {
-    petavuShell(
-      "ورود کنترل بازرگانی",
-      `<a href="${PETAVU_ENV.origins.website}">سایت</a>`,
-      `<form id="f"><input name="email" type="email" required dir="ltr" placeholder="ایمیل"><input name="password" type="password" required placeholder="رمز"><button class="btn">ورود</button><p id="m"></p></form>`
-    );
+    petavuGate({
+      lock: true,
+      image: "assets/login.jpg",
+      kicker: "دروازهٔ کنترل بازرگانی",
+      title: "احراز هویت ادارهٔ بازار",
+      lead: "این صفحه جدا از میز کار اعضا و جدا از ادارهٔ شبکه است. فقط راهبران بازار با نشانی مستقیم وارد می‌شوند.",
+      captionTitle: "سامانهٔ کنترل بازار پتاوو",
+      caption: "کالا، تأمین و جریان سفارش میان پت‌شاپ، کلینیک و اصطبل — فرمان بازرگانی در دست شما.",
+      form: `<form id="f">
+        <label>نام کاربری</label>
+        <input name="email" type="email" required dir="ltr" placeholder="ایمیل" autocomplete="username">
+        <label>رمز عبور</label>
+        <input name="password" type="password" required placeholder="رمز عبور" autocomplete="current-password">
+        <button class="btn" type="submit">تأیید هویت و ورود</button>
+        <p id="m"></p>
+      </form>`,
+      extra: `<p class="gate-extra"><a href="${PETAVU_ENV.origins.website}">بازگشت به سایت</a></p>`,
+    });
     qs("#f").onsubmit = async (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
